@@ -25,6 +25,7 @@ export interface Author {
 export interface Answer {
   a: string;
 }
+
 const QuestionCard = ({ q }: { q: Question }) => {
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">

@@ -1,7 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
+interface IMetricProps {
+  imgUrl: string;
+  alt: string;
+  value: string | number;
+  title: string;
+  textStyles?: string;
+  href?: string;
+  isAuthor?: boolean;
+}
 const Metric = ({
   imgUrl,
   alt,
@@ -10,15 +18,7 @@ const Metric = ({
   textStyles,
   href,
   isAuthor,
-}: {
-  imgUrl: string;
-  alt: string;
-  value: string | number;
-  title: string;
-  textStyles?: string;
-  href?: string;
-  isAuthor?: boolean;
-}) => {
+}: IMetricProps) => {
   const metricContent = (
     <>
       <Image
@@ -41,10 +41,10 @@ const Metric = ({
   );
   if (href) {
     return (
-        <Link href={href} className="flex-center flex-wrap gap-1">
-            {metricContent}
-        </Link>
-    )
+      <Link href={href} className="flex-center flex-wrap gap-1">
+        {metricContent}
+      </Link>
+    );
   }
   return <div className="flex-center flex-wrap gap-1">{metricContent}</div>;
 };
