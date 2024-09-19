@@ -22,7 +22,7 @@ import { useTheme } from "@/context/ThemeProvider";
 import { createQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
 
-let type: "create" | "edit" | undefined = "edit";
+let type: "create" | "edit" | undefined = "create";
 
 interface Props {
   mongoUserId: string;
@@ -43,11 +43,10 @@ const Question = ({ mongoUserId }: Props) => {
     },
   });
 
-// eslint-disable-next-line no-constant-condition
-if (false) {
-  type = "edit"
-}
-
+  // eslint-disable-next-line no-constant-condition
+  if (false) {
+    type = "edit";
+  }
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
