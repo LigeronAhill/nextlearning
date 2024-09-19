@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import { useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -23,7 +22,7 @@ import { useTheme } from "@/context/ThemeProvider";
 import { createQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
 
-const type: "create" | "edit" = "create";
+let type: "create" | "edit" | undefined = "edit";
 
 interface Props {
   mongoUserId: string;
@@ -43,6 +42,12 @@ const Question = ({ mongoUserId }: Props) => {
       tags: [],
     },
   });
+
+// eslint-disable-next-line no-constant-condition
+if (false) {
+  type = "edit"
+}
+
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
@@ -68,7 +73,8 @@ const Question = ({ mongoUserId }: Props) => {
   }
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    field: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    field: any
   ) => {
     if (e.key === "Enter" && field.name === "tags") {
       e.preventDefault();
@@ -91,6 +97,7 @@ const Question = ({ mongoUserId }: Props) => {
       }
     }
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleTagRemove = (tag: string, field: any) => {
     const newTags = field.value.filter((t: string) => t !== tag);
     form.setValue("tags", newTags);
@@ -136,7 +143,7 @@ const Question = ({ mongoUserId }: Props) => {
                 <Editor
                   apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                   onInit={(_evt, editor) => {
-                    // @ts-ignore
+                    // @ts-expect-error ddf
                     return (editorRef.current = editor);
                   }}
                   onBlur={field.onBlur}
@@ -198,7 +205,7 @@ const Question = ({ mongoUserId }: Props) => {
                   />
                   {field.value.length > 0 && (
                     <div className="flex-start mt-2.5 gap-2.5">
-                      {field.value.map((tag: any) => (
+                      {field.value.map((tag: string) => (
                         <Badge
                           key={tag}
                           className="subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize"

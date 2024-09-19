@@ -10,7 +10,7 @@ interface Props {
   otherClasses?: string;
 }
 const LocalSearchbar = ({
-  route,
+  // route,
   iconPosition,
   imgSrc,
   placeholder,
