@@ -68,7 +68,7 @@ export async function POST(req: Request) {
       const mongoUser = await createUser({
         clerkId: id,
         name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
-        username: username!,
+        username: `${username || "anonimus"}`,
         picture: image_url,
         email: email_addresses[0].email_address,
       });
