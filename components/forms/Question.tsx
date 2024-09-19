@@ -21,10 +21,17 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { useTheme } from "@/context/ThemeProvider";
 import { createQuestion } from "@/lib/actions/question.action";
+import { useRouter, usePathname } from "next/navigation";
 
 const type: "create" | "edit" = "create";
 
-const Question = () => {
+interface Props {
+  mongoUserId: string;
+}
+
+const Question = ({ mongoUserId }: Props) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,8 +51,15 @@ const Question = () => {
       // make an async api call to API -> create a question
       // contain all form data
       // navigate to homepage
-      await createQuestion({});
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+      });
+      router.push("/");
     } catch (error) {
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
